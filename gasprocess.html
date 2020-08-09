@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<!--
+ ##@kois
+ ##@http://www.tyma.top
+ ##@2020/8/9
+-->>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <title>计算理想气体的热功转换</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>计算理想气体的热功转换</h1>
+        过程：<input list="browser" name="type" v-model="type"></input><br>
+        气体：<input list="browser2" name="gas" v-model="gas"></input><br>
+        <datalist id="browser">
+            <option value="等压过程"></option>
+            <option value="等体过程"></option>
+            <option value="等温过程"></option>
+            <option value="绝热过程"></option>
+        </datalist>
+        <datalist id="browser2">
+            <option value="单原子分子气体"></option>
+            <option value="刚性双原子分子气体"></option>
+            <option value="刚性多原子分子气体"></option>
+        </datalist>
+        分子量：<input v-model="mol" value="mol" name="mol"></input>
+        <hr>
+        </hr>
+        起始状态：<br>
+        体积：<input v-model="v1" name="v1"></input><br>
+        压强：<input v-model="p1" name="p1"></input><br>
+        温度：<input v-model="t1" name="t1"></input>
+        <hr>
+        </hr>
+        终末状态：<br>
+        体积：<input v-model="v2" name="t2"></input><br>
+        压强：<input v-model="p2" name="p2"></input><br>
+        温度：<input v-model="t2" name="t2"></input><br>
+        <hr>
+        </hr>
+        <input type="submit" value="立即计算" v-on:click="go"></input>
+        <p>{{info}}</p>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                i: "",
+                gas: "",
+                type: "",
+                mol: "",
+                info: "",
+                v1: "",
+                v2: "",
+                p1: "",
+                p2: "",
+                t1: "",
+                t2: ""
+            },
+            methods: {
+                go: function () {
+                    switch (this.gas) {
+                        case "单原子分子气体":
+                            this.i = 3
+                            break;
+                        case "刚性双原子分子气体":
+                            this.i = 5
+                            break;
+                        case "刚性多原子分子气体":
+                            this.i = 6
+                            break;
+                    }
+                    switch (this.type) {
+                        case "等体过程":
+                            this.volume(this.i, this.mol, this.t1, this.t2);
+                            break;
+                    }
+                },
+                volume: function (i, mol, t1, t2) {
+                    var result = mol * i * (t2 - t1) * (8.314)
+                    console.log(this.mol)
+                    this.info = "本过程是 等体过程 ，气体不做功，热量变化为 " + result + " J."
+                    console.log(this.info)
+                    return result
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
